@@ -1,0 +1,9 @@
+{
+	"name": "covid-reporting-adf-jdl",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "436fd5f7-05d0-4789-b358-84e96991f1a7",
+		"tenantId": "2ee548e1-6be8-4729-b86e-f482e29d2c9f"
+	}
+}
