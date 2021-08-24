@@ -1,0 +1,37 @@
+{
+	"name": "df_transformed_hospital_admissions",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_raw_hospital_admissions",
+						"type": "DatasetReference"
+					},
+					"name": "HospitalAdmissionsSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_country_lookup",
+						"type": "DatasetReference"
+					},
+					"name": "CountryLookupSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "SelectRequiredFieldsOnly"
+				},
+				{
+					"name": "CountryLookup"
+				},
+				{
+					"name": "SelectRequiredFieldsOnly2"
+				}
+			],
+			"script": "source(output(\n\t\tcountry as string,\n\t\tindicator as string,\n\t\tdate as date,\n\t\tyear_week as string,\n\t\tvalue as double,\n\t\tsource as string,\n\t\turl as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> HospitalAdmissionsSource\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CountryLookupSource\nHospitalAdmissionsSource select(mapColumn(\n\t\tcountry,\n\t\tindicator,\n\t\treported_date = date,\n\t\treported_year_week = year_week,\n\t\tvalue,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRequiredFieldsOnly\nSelectRequiredFieldsOnly, CountryLookupSource lookup(SelectRequiredFieldsOnly@country == CountryLookupSource@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> CountryLookup\nCountryLookup select(mapColumn(\n\t\tcountry = SelectRequiredFieldsOnly@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tindicator,\n\t\treported_date,\n\t\treported_year_week,\n\t\tvalue,\n\t\tsource,\n\t\tcontinent\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRequiredFieldsOnly2"
+		}
+	}
+}
