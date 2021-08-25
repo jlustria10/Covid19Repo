@@ -1,0 +1,33 @@
+{
+	"name": "ls_hdi_covid_cluster",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "HDInsightOnDemand",
+		"typeProperties": {
+			"clusterType": "hadoop",
+			"clusterSize": 2,
+			"timeToLive": "00:15:00",
+			"version": "4.0",
+			"hostSubscriptionId": "2bcb9f3d-3f6b-4a90-a49e-86d3141c7f73",
+			"clusterResourceGroup": "Lingaro_jeanlustria_2108250457_1a779",
+			"servicePrincipalId": "covid19-hdi-managed-identity",
+			"tenant": "2ee548e1-6be8-4729-b86e-f482e29d2c9f",
+			"clusterNamePrefix": "",
+			"additionalLinkedServiceNames": [
+				{
+					"referenceName": "ls_ablob_covidreportingsajdl",
+					"type": "LinkedServiceReference"
+				}
+			],
+			"linkedServiceName": {
+				"referenceName": "ls_adls_covidreportingdljdl",
+				"type": "LinkedServiceReference"
+			},
+			"headNodeSize": "",
+			"dataNodeSize": "",
+			"zookeeperNodeSize": "",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkNPVklELVJFUE9SVElORy1BREYtSkRMXzNlNTE3M2QzLTRhMWEtNDc3MC05YzM4LTNkMTQyMjUzNzdhMyINCn0="
+		}
+	}
+}
